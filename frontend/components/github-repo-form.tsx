@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form"
 import { FormSchema } from "@/schema/schema"
 import { Input } from "./ui/input"
+import { CornerDownLeft } from "lucide-react"
 
 export function GitHubRepoForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -34,7 +35,7 @@ export function GitHubRepoForm() {
   }
 
   return (
-    <div className="flex-grow flex items-center justify-center">
+    <div className="flex-grow flex items-center justify-center ">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center justify-center space-y-16">
           <FormField
@@ -43,13 +44,25 @@ export function GitHubRepoForm() {
             render={({ field }) => (
               <FormItem className="flex flex-col items-center justify-center space-y-6">
                 <FormLabel className="text-4xl">The best way to navigate complex codebases! </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Link to GitHub repository"
-                    className="resize-none flex w-2/3"
-                    {...field}
-                  />
-                </FormControl>
+                <div className="flex flex-row w-full items-center justify-center">
+                  <FormControl>
+                  <div className="relative">
+                    <Input
+                      placeholder="Search..."
+                      className="pr-12"
+                      {...field}
+                    />
+                    <Button
+                      type="submit"
+                      size="icon"
+                      className="absolute right-1 top-1/2 -translate-y-1/2"
+                    >
+                      <CornerDownLeft className="h-4 w-4" />
+                      <span className="sr-only">Search</span>
+                    </Button>
+                  </div>
+                  </FormControl>
+                </div>
                 {/* <FormDescription>
                   You can <span>@mention</span> other users and organizations.
                 </FormDescription> */}
@@ -57,7 +70,6 @@ export function GitHubRepoForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
         </form>
       </Form>
     </div>
