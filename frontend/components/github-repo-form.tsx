@@ -43,21 +43,21 @@ export function GitHubRepoForm() {
             name="repoUrl"
             render={({ field }) => (
               <FormItem className="flex flex-col items-center justify-center space-y-6">
-                <FormLabel className="text-4xl">The best way to navigate complex codebases! </FormLabel>
-                <div className="flex flex-row w-full items-center justify-center">
+                <FormLabel className="text-4xl">The best way to navigate complex codebases!</FormLabel>
+                <div className="flex flex-row items-center justify-center">
                   <FormControl>
                   <div className="relative">
                     <Input
-                      placeholder="Search..."
+                      placeholder="Repo URL..."
                       className="pr-12"
                       {...field}
                     />
                     <Button
                       type="submit"
                       size="icon"
-                      className="absolute right-1 top-1/2 -translate-y-1/2"
+                      className="absolute right-1 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent shadow-none "
                     >
-                      <CornerDownLeft className="h-4 w-4" />
+                      <CornerDownLeft className="h-4 w-4" color="black" />
                       <span className="sr-only">Search</span>
                     </Button>
                   </div>
