@@ -35,37 +35,44 @@ export function GitHubRepoForm() {
   }
 
   return (
-    <div className="flex-grow flex items-center justify-center ">
+    <div className="flex-grow flex justify-center ">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center justify-center space-y-16">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-16">
           <FormField
             control={form.control}
             name="repoUrl"
             render={({ field }) => (
               <FormItem className="flex flex-col items-center justify-center space-y-6">
-                <FormLabel className="text-4xl">The best way to navigate complex codebases!</FormLabel>
-                <div className="flex flex-row items-center justify-center">
-                  <FormControl>
-                  <div className="relative">
-                    <Input
-                      placeholder="Repo URL..."
-                      className="pr-12"
-                      {...field}
-                    />
-                    <Button
-                      type="submit"
-                      size="icon"
-                      className="absolute right-1 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent shadow-none "
-                    >
-                      <CornerDownLeft className="h-4 w-4" color="black" />
-                      <span className="sr-only">Search</span>
-                    </Button>
+                <FormLabel className="flex flex-col justify-center items-center space-y-6 text-5xl font-bold font-montserrat">
+                  <h1 className="text-slate-800">Hi there👋! First day on the job?</h1>
+                  <div>
+                    <h1 className="bg-gradient-to-r from-pink-400 via-sky-400 to-purple-400 inline-block text-transparent bg-clip-text text-6xl">Ephistomap</h1>
+                    <span className="text-slate-800 text-5xl">{' '}got you covered</span>
                   </div>
+                </FormLabel>
+                <div className="flex flex-col items-center justify-center min-w-full">
+                  <div className="text-slate-500 text-center">
+                    <div>Ephistomap provides an intuitive knowledge graph for any GitHub repository,</div>
+                    <div>helping you understand and navigate complex codebases effortlessly</div>
+                  </div>
+                  <FormControl>
+                    <div className="relative mt-4 min-w-full">
+                      <Input
+                        placeholder="Repo URL..."
+                        className="pr-12 shadow-none border-gray-500 border-2 h-14 rounded-xl"
+                        {...field}
+                      />
+                      <Button
+                        type="submit"
+                        size="icon"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent shadow-none "
+                      >
+                        <CornerDownLeft className="h-4 w-4" color="black" />
+                        <span className="sr-only">Search</span>
+                      </Button>
+                    </div>
                   </FormControl>
                 </div>
-                {/* <FormDescription>
-                  You can <span>@mention</span> other users and organizations.
-                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}

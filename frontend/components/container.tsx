@@ -11,7 +11,7 @@ const Container: React.FC<ContainerProps> = ({
     className 
 }) => {
   return (
-    <div className={cn("flex flex-col min-w-screen min-h-screen mx-auto sm:px-6 lg:px-8 bg-gradient-to-bl from-sky-200 to-fuchsia-200", className)}>
+    <div className={cn("flex flex-col space-y-16 min-w-screen min-h-screen mx-auto sm:px-6 lg:px-8 bg-gradient-to-bl from-sky-200 via-violet-300 to-red-50", className)}>
       {children}
     </div>
   );

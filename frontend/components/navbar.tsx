@@ -8,7 +8,7 @@ export default function Navbar(){
             <div className="flex">Logo</div>
             {/* TODO: add Logo Image */}
             <div className="flex space-x-4 items-center justify-center">
-                <Button className="rounded-full h-12 bg-violet-500 hover:bg-fuchsia-300 bg-transparent shadow-none text-black hover:text-white" asChild>
+                <Button className="rounded-full h-12 hover:bg-violet-500 bg-transparent shadow-none text-black hover:text-white" asChild>
                     <Link href="/login">Login</Link>
                 </Button>
                 <Button className="rounded-full h-12 bg-fuchsia-300 hover:bg-violet-500 text-slate-100" asChild>
