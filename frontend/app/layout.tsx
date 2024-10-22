@@ -20,11 +20,12 @@ const sfPro = localFont({
 })
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: '400',
+  weight: ['100','200', '300', '400', '500', '600', '700', '800', '900'],
 });
-const kanit = Kanit({
-  subsets: ["latin"],
-  weight: '400',
+const marlinSoft = localFont({
+  src: "./fonts/MarlinSoftBasic-Regular.otf",
+  variable: "--font-marlin-soft",
+  weight: "400"
 })
 
 
@@ -41,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} antialiased`}
+        className={`${poppins.className} ${marlinSoft.className} antialiased`}
       >
         {children}
       </body>

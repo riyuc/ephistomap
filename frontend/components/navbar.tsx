@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 export default function Navbar(){
     return (
-        <nav className="flex justify-between items-center p-4">
+        <nav className="flex justify-between items-center w-full p-4 fixed top-0 z-20 backdrop-blur-lg">
             <div className="flex">Logo</div>
             {/* TODO: add Logo Image */}
             <div className="flex space-x-4 items-center justify-center">

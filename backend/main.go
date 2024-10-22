@@ -1,40 +1,16 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/riyuc/ephistomap/backend/utils"
 )
 
 func main() {
-	r := gin.Default()
+	router := gin.Default()
 
-	r.GET("/health", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "healthy",
-		})
-	})
+	router.Use(utils.CORSMiddleware())
 
-	r.POST("/api/v1/generate-graph", func(c *gin.Context) {
-		var request struct {
-			url string `json:"url" binding:required`
-		}
+	InitializeRoutes(router)
 
-		if err := c.ShouldBindJSON(&request); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		repoUrl := request.url
-
-		graphData := gin.H{
-			"nodes": []gin.H{},
-			"edges": []gin.H{},
-		  }
-	  
-		c.JSON(http.StatusOK, graphData)
-		
-	})
-
-	r.Run()
+	router.Run(":8080")
 }

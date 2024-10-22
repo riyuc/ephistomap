@@ -28,45 +28,45 @@ func getGitHubClient() *github.Client {
 }
 
 func ListAllFiles(owner, repo string) ([]*github.TreeEntry, error) {
-	client := getGitHubClient()
-	ctx := context.Background()
+    client := getGitHubClient()
+    ctx := context.Background()
 
-	// Get the default branch (usually 'main' or 'master')
-	repository, _, err := client.Repositories.Get(ctx, owner, repo)
-	if err != nil {
-		return nil, err
-	}
+    // Get the default branch (usually 'main' or 'master')
+    repository, _, err := client.Repositories.Get(ctx, owner, repo)
+    if err != nil {
+        return nil, err
+    }
 
-	branch := repository.GetDefaultBranch()
+    branch := repository.GetDefaultBranch()
 
-	// Get the commit SHA of the default branch
-	ref, _, err := client.Git.GetRef(ctx, owner, repo, "refs/heads/"+branch)
-	if err != nil {
-		return nil, err
-	}
+    // Get the commit SHA of the default branch
+    ref, _, err := client.Git.GetRef(ctx, owner, repo, "refs/heads/"+branch)
+    if err != nil {
+        return nil, err
+    }
 
-	// Get the tree of the default branch
-	tree, _, err := client.Git.GetTree(ctx, owner, repo, *ref.Object.SHA, true)
-	if err != nil {
-		return nil, err
-	}
+    // Get the tree of the default branch
+    tree, _, err := client.Git.GetTree(ctx, owner, repo, *ref.Object.SHA, true)
+    if err != nil {
+        return nil, err
+    }
 
-	return tree.Entries, nil
+    return tree.Entries, nil
 }
 
 func GetFileContent(owner, repo, path string) (string, error) {
-	client := getGitHubClient()
-	ctx := context.Background()
+    client := getGitHubClient()
+    ctx := context.Background()
 
-	fileContent, _, _, err := client.Repositories.GetContents(ctx, owner, repo, path, nil)
-	if err != nil {
-		return "", err
-	}
+    fileContent, _, _, err := client.Repositories.GetContents(ctx, owner, repo, path, nil)
+    if err != nil {
+        return "", err
+    }
 
-	content, err := fileContent.GetContent()
-	if err != nil {
-		return "", err
-	}
+    content, err := fileContent.GetContent()
+    if err != nil {
+        return "", err
+    }
 
-	return content, nil
+    return content, nil
 }

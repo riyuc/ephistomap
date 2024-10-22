@@ -5,8 +5,9 @@ type Node struct {
 }
 
 type NodeData struct {
-    ID    string `json:"id"`
-    Label string `json:"label"`
+    ID       string `json:"id"`
+    Label    string `json:"label"`
+    Language string `json:"language,omitempty"`
 }
 
 type Edge struct {
