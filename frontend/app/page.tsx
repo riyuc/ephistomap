@@ -1,15 +1,18 @@
-import Image from "next/image";
-import Container from "../components/container";
-import Navbar from "../components/navbar";
-import { GitHubRepoForm } from "@/components/github-repo-form";
-import Hero from "@/components/hero";
-import ProductDemo from "@/components/product-demo";
+// pages/index.tsx or pages/Home.tsx
+'use client';
 
-export default function Home() {
+import React from 'react';
+import Container from '@/components/container/container';
+import Navbar from '@/components/navbar/navbar';
+import ProductDemo from '@/components/product-demo';
+
+const Home: React.FC = () => {
   return (
     <Container>
-        <Navbar />
-        <ProductDemo />
+      <Navbar />
+      <ProductDemo />
     </Container>
   );
-}
+};
+
+export default Home;
