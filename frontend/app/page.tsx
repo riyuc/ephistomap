@@ -1,18 +1,18 @@
-// pages/index.tsx or pages/Home.tsx
 'use client';
 
 import React from 'react';
-import Container from '@/components/container/container';
 import Navbar from '@/components/navbar/navbar';
 import ProductDemo from '@/components/product-demo';
+import { AuroraBackground } from '@/components/ui/aurora-background';
+import Hero from '@/components/hero/hero';
 
-const Home: React.FC = () => {
+export default function Home() {
   return (
-    <Container>
-      <Navbar />
-      <ProductDemo />
-    </Container>
+    <AuroraBackground>
+        <Navbar />
+        <Hero />
+        {/* <ProductDemo /> */}
+    </AuroraBackground>
   );
 };
 
-export default Home;

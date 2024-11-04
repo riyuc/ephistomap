@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Navbar(){
     return (
-        <nav className="flex justify-between items-center w-full p-4 fixed top-0">
+        <nav className="flex justify-between items-center w-full p-4 fixed top-0 border border-stone-300 shadow-sm">
             <div className="flex">Logo</div>
             {/* TODO: add Logo Image */}
             <div className="flex space-x-4 items-center justify-center border rounded-full p-2 border-slate-200 border-1">

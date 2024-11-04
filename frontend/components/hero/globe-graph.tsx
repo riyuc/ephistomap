@@ -1,3 +1,4 @@
+// components/hero/globe-graph.tsx
 'use client';
 
 import React, { useRef, useMemo } from 'react';
@@ -6,11 +7,19 @@ import * as THREE from 'three';
 import Node from '@/components/hero/node';
 import Edge from '@/components/hero/edge';
 
-const createSphereNodes = (numNodes: number, radius: number): [number, number, number][] => {
+interface GlobeGraphProps {
+  zoom: number;
+  className?: string;
+}
+
+const createSphereNodes = (
+  numNodes: number,
+  radius: number
+): [number, number, number][] => {
   const nodes: [number, number, number][] = [];
   for (let i = 0; i < numNodes; i++) {
     const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos((Math.random() * 2) - 1);
+    const phi = Math.acos(Math.random() * 2 - 1);
     const x = radius * Math.sin(phi) * Math.cos(theta);
     const y = radius * Math.sin(phi) * Math.sin(theta);
     const z = radius * Math.cos(phi);
@@ -19,17 +28,22 @@ const createSphereNodes = (numNodes: number, radius: number): [number, number, n
   return nodes;
 };
 
-const GlobeGraph: React.FC = () => {
-  const numNodes = 100;
-  const radius = 3;
-  const nodes = useMemo(() => createSphereNodes(numNodes, radius), [numNodes, radius]);
+const GlobeGraph: React.FC<GlobeGraphProps> = ({ zoom, className }) => {
+  const numNodes = 120;
+  const radius = 2;
+  const nodes = useMemo(
+    () => createSphereNodes(numNodes, radius),
+    [numNodes, radius]
+  );
 
   const edges = useMemo(() => {
     const temp: [number, number][] = [];
     const maxDistance = radius * 0.4;
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
-        const distance = new THREE.Vector3(...nodes[i]).distanceTo(new THREE.Vector3(...nodes[j]));
+        const distance = new THREE.Vector3(...nodes[i]).distanceTo(
+          new THREE.Vector3(...nodes[j])
+        );
         if (distance <= maxDistance) {
           temp.push([i, j]);
         }
@@ -50,7 +64,7 @@ const GlobeGraph: React.FC = () => {
   });
 
   return (
-    <group ref={globeRef}>
+    <group ref={globeRef} scale={[zoom, zoom, zoom]}>
       {nodes.map((pos, i) => (
         <Node key={i} position={pos} color={nodeColor} />
       ))}
