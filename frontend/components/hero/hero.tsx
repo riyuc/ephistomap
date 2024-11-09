@@ -70,8 +70,6 @@ const Hero: React.FC = () => {
 
       {/* Content that scrolls over the globe */}
       <div className="relative z-10">
-        {/* Your content goes here */}
-        {/* Ensure there's enough content to allow scrolling */}
         <div className="min-h-screen w-full flex flex-col items-center justify-center">
           <h1 className="text-5xl font-extrabold text-gray-800 mb-4">
             Welcome to{' '}
@@ -84,9 +82,7 @@ const Hero: React.FC = () => {
           </p>
           <GitHubRepoForm />
         </div>
-        {/* Additional content */}
         <div className="min-h-screen w-full flex flex-col items-center justify-center">
-          {/* More content to scroll into */}
           <MockGraphVisualization />
         </div>
       </div>
