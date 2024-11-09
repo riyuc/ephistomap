@@ -1,53 +1,48 @@
 // components/hero/Hero.tsx
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, MutableRefObject } from 'react';
 import { Canvas } from '@react-three/fiber';
 import GlobeGraph from '@/components/hero/globe-graph';
-import MockGraphVisualization from '@/components/hero/mock-graph-visualization';
+import { OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
+import MockGraphVisualization from './mock-graph-visualization';
+import { GitHubRepoForm } from '../github-repo-form';
 
 const Hero: React.FC = () => {
-  const [zoom, setZoom] = useState(1); // Initial zoom level
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const maxZoomScroll = 500; // Maximum scroll offset for zooming
-  const minZoomScroll = 0; // Minimum scroll offset (no zoom)
-
-  const contentRef = useRef<HTMLDivElement>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(
+    null
+  ) as MutableRefObject<THREE.PerspectiveCamera | null>;
 
   useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
-      const delta = event.deltaY;
+    // Scroll to top on component mount
+    window.scrollTo(0, 0);
 
-      // Calculate potential new scroll position
-      let newScrollPosition = scrollPosition + delta;
+    const maxScroll = 500; // Adjust based on desired scroll length
+    const initialZ = 4; // Camera initial position.z
+    const minZ = initialZ / 2; // Minimum z (zoomed in)
+    const maxZ = initialZ; // Maximum z (initial position)
 
-      // Clamp the new scroll position between minZoomScroll and maxZoomScroll
-      newScrollPosition = Math.max(minZoomScroll, Math.min(newScrollPosition, maxZoomScroll));
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
 
-      // Determine if scrolling should be prevented
-      if (newScrollPosition !== scrollPosition) {
-        event.preventDefault();
+      // Calculate scroll factor (0 to 1)
+      const scrollFactor = Math.min(scrollY / maxScroll, 1);
 
-        setScrollPosition(newScrollPosition);
+      // Calculate new camera z position
+      const newZ = maxZ - scrollFactor * (maxZ - minZ);
 
-        // Calculate new zoom level based on scroll position
-        const newZoom = 1 + newScrollPosition / maxZoomScroll; // Zoom ranges from 1 to 2
-        setZoom(newZoom);
+      if (cameraRef.current) {
+        cameraRef.current.position.z = newZ;
       }
-      // No else block needed; normal scrolling behavior resumes when outside zoom range
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [scrollPosition]);
-
-  // Calculate dynamic opacity and translateY based on scrollPosition
-  const fadeInRatio = Math.min(scrollPosition / maxZoomScroll, 1); // Ensures the ratio doesn't exceed 1
-  const opacity = fadeInRatio; // Opacity ranges from 0 to 1
-  const translateY = 10 - fadeInRatio * 10; // TranslateY ranges from 10px to 0px
+  }, []);
 
   return (
     <div className="relative overflow-visible">
@@ -56,45 +51,44 @@ const Hero: React.FC = () => {
         <Canvas
           camera={{ position: [0, 0, 4], fov: 60 }}
           className="w-full h-full"
+          onCreated={({ camera }) => {
+            cameraRef.current = camera as THREE.PerspectiveCamera;
+          }}
         >
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} />
-          <GlobeGraph zoom={zoom} />
+          <GlobeGraph />
+          <OrbitControls
+            enableZoom={false} // Disable manual zooming
+            enableRotate={false}
+            enableDamping={true}
+            dampingFactor={0.1}
+            enablePan={false}
+          />
         </Canvas>
       </div>
 
       {/* Content that scrolls over the globe */}
-      <div ref={contentRef} className="relative z-10">
-        {/* Spacer to push content below the viewport initially */}
-        <div className="h-screen"></div>
-
-        {/* Landing page content with two sections: Text and Visualization */}
-        <div
-          className="min-h-screen flex flex-col md:flex-row items-center justify-center transition-opacity transition-transform ease-in-out duration-700"
-          style={{
-            opacity: opacity,
-            transform: `translateY(${translateY}px)`,
-            pointerEvents: opacity > 0 ? 'auto' : 'none', // Enable interactions only when visible
-          }}
-        >
-          {/* Left Section: Welcome Text */}
-          <div className="w-full md:w-1/2 p-6">
-            <h1 className="text-5xl font-extrabold text-gray-800 mb-4">
-              Welcome to Ephisto
-            </h1>
-            <p className="text-xl text-gray-600">
-              Your copilot for navigating complex codebases.
-            </p>
-            {/* Add more descriptive text or buttons as needed */}
-          </div>
-
-          {/* Right Section: Graph Visualization */}
-          <div className="w-full md:w-1/2 p-6">
-            <MockGraphVisualization />
-          </div>
+      <div className="relative z-10">
+        {/* Your content goes here */}
+        {/* Ensure there's enough content to allow scrolling */}
+        <div className="min-h-screen w-full flex flex-col items-center justify-center">
+          <h1 className="text-5xl font-extrabold text-gray-800 mb-4">
+            Welcome to{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-sky-400 to-purple-400">
+              Ephisto
+            </span>
+          </h1>
+          <p className="text-xl text-gray-600">
+            Your copilot for navigating complex codebases.
+          </p>
+          <GitHubRepoForm />
         </div>
-
-        {/* Additional content sections */}
+        {/* Additional content */}
+        <div className="min-h-screen w-full flex flex-col items-center justify-center">
+          {/* More content to scroll into */}
+          <MockGraphVisualization />
+        </div>
       </div>
     </div>
   );

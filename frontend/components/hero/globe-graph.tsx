@@ -8,7 +8,6 @@ import Node from '@/components/hero/node';
 import Edge from '@/components/hero/edge';
 
 interface GlobeGraphProps {
-  zoom: number;
   className?: string;
 }
 
@@ -28,9 +27,10 @@ const createSphereNodes = (
   return nodes;
 };
 
-const GlobeGraph: React.FC<GlobeGraphProps> = ({ zoom, className }) => {
-  const numNodes = 120;
-  const radius = 2;
+const GlobeGraph: React.FC<GlobeGraphProps> = ({ className }) => {
+  const numNodes = 110;
+  const radius = 2.5;
+
   const nodes = useMemo(
     () => createSphereNodes(numNodes, radius),
     [numNodes, radius]
@@ -57,14 +57,14 @@ const GlobeGraph: React.FC<GlobeGraphProps> = ({ zoom, className }) => {
 
   const globeRef = useRef<THREE.Group>(null);
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (globeRef.current) {
-      globeRef.current.rotation.y = clock.getElapsedTime() * 0.05;
+      globeRef.current.rotation.y += 0.0005; // Rotate at a consistent speed
     }
   });
 
   return (
-    <group ref={globeRef} scale={[zoom, zoom, zoom]}>
+    <group ref={globeRef}>
       {nodes.map((pos, i) => (
         <Node key={i} position={pos} color={nodeColor} />
       ))}
